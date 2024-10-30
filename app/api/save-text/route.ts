@@ -9,6 +9,15 @@ export async function POST(request: Request) {
         const fileName = 'serial_data.txt';
         const filePath = path.join(process.cwd(), 'public', fileName);
 
+        const fileExists = fs.existsSync(filePath);
+
+        if (fileExists) {
+            const prefix = fileExists ? '\n' : '';
+            fs.appendFileSync(filePath, prefix + body.text, 'utf8');
+
+            return Response.json({ fileName, data: "oke" });
+        }
+
         // Save the text data to a file in the public directory
         fs.writeFileSync(filePath, body.text, 'utf8');
 

@@ -81,6 +81,30 @@ export default function ExcelUpload() {
             return existingData.includes(serial);
           });
 
+          if (duplicateSerials.length == 0) {
+            const serialData = jsonData
+              .map((row) => {
+                return row.Serial;
+              })
+              .filter((serial): serial is string => Boolean(serial));
+
+            // Save to .txt file
+            const textData = serialData.join("\n");
+
+            console.log("log check text data ====", textData);
+
+            const res = await fetch("/api/save-text", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ text: textData }),
+            });
+
+            if (res.ok) {
+              const result = await res.json();
+              setFileName(result.fileName);
+            }
+          }
+
           setDuplicates(duplicateSerials);
         };
 
@@ -101,6 +125,7 @@ export default function ExcelUpload() {
           className="fileInput"
         />
       </label>
+      <button className="px-3 py-4" onClick={() => { window.location.reload() }}>Reload</button>
       {fileName && (
         <p>
           File saved as: <a href={`/${fileName}`}>{fileName}</a>
