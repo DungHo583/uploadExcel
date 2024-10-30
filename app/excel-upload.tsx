@@ -11,7 +11,7 @@ export default function ExcelUpload() {
   const handleFileUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
-    const resGetFile = await fetch("/api/get-serials", {
+    const resGetFile = await fetch("/api/api/get-serials", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
@@ -37,7 +37,7 @@ export default function ExcelUpload() {
           // Save to .txt file
           const textData = serialData.join("\n");
 
-          const res = await fetch("/api/save-text", {
+          const res = await fetch("/api/api/save-text", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: textData }),
@@ -91,9 +91,7 @@ export default function ExcelUpload() {
             // Save to .txt file
             const textData = serialData.join("\n");
 
-            console.log("log check text data ====", textData);
-
-            const res = await fetch("/api/save-text", {
+            const res = await fetch("/api/api/save-text", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ text: textData }),
