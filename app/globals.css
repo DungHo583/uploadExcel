@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* app/ExcelUpload.module.css */
+
+.uploadButton {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.uploadButton:hover {
+  background-color: #45a049;
+}
+
+.fileInput {
+  display: none;
+}
+
+.duplicatesContainer {
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.duplicatesContainer h3 {
+  color: #ff6347;
+}
+
+.duplicatesContainer ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.duplicatesContainer li {
+  background-color: #f9f9f9;
+  padding: 8px;
+  margin: 4px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
