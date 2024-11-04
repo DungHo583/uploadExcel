@@ -9,26 +9,26 @@ export async function POST(request: Request) {
     }
 
     try {
-        const duplicate: { serial: string, fileName: string }[] = [];
+        const duplicate: { stt: string; serial: string; fileName: string }[] = [];
         for (let i = 0; i < body.data.length; i++) {
             const query = `SELECT * FROM "Serials" as s where s."serial" = '${body.data[i].serial}';`
             const find = await conn?.query(query)
 
             if (find?.rows.length == 0) {
-                const insert = `INSERT INTO "Serials" ("id", "serial", "fileName") VALUES (
-                '${cuid()}', '${body.data[i].serial}', '${body.data[i].fileName}');`
+                const insert = `INSERT INTO "Serials" ("id", "serial", "fileName", "stt") VALUES (
+                '${cuid()}', '${body.data[i].serial}', '${body.data[i].fileName}', '${body.data[i].stt}');`
                 await conn?.query(insert)
             }
             if (find?.rows.length != 0) {
-                duplicate.push({ serial: body.data[i].serial, fileName: body.data[i].fileName })
+                duplicate.push({ stt: body.data[i].stt, serial: body.data[i].serial, fileName: body.data[i].fileName })
                 continue
             }
         }
 
         if (duplicate.length != 0) {
-            return Response.json({ data: duplicate, check: "The file has duplicates" });
+            return Response.json({ data: duplicate, check: "Serial đã bị trùng" });
         } else {
-            return Response.json({ data: [], check: "No duplicate files" });
+            return Response.json({ data: [], check: "Không có Serial nào bị trùng" });
         }
 
 
