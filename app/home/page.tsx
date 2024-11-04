@@ -1,7 +1,7 @@
-import ExcelUpload from "../excel-upload";
+import CheckUpload from "../check-excel";
 
 export default function Home() {
   return (
-    <ExcelUpload />
+    <CheckUpload />
   );
 }
