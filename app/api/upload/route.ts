@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     }
 
     try {
-        const duplicate: { stt: string; serial: string; fileName: string }[] = [];
+        const duplicate: { stt: string; serial: string; fileName: string; fileOld: string }[] = [];
         for (let i = 0; i < body.data.length; i++) {
             const query = `SELECT * FROM "Serials" as s where s."serial" = '${body.data[i].serial}';`
             const find = await conn?.query(query)
@@ -18,9 +18,10 @@ export async function POST(request: Request) {
                 const insert = `INSERT INTO "Serials" ("id", "serial", "fileName", "stt") VALUES (
                 '${cuid()}', '${body.data[i].serial}', '${body.data[i].fileName}', '${body.data[i].stt}');`
                 await conn?.query(insert)
+                continue
             }
             if (find?.rows.length != 0) {
-                duplicate.push({ stt: body.data[i].stt, serial: body.data[i].serial, fileName: body.data[i].fileName })
+                duplicate.push({ stt: body.data[i].stt, serial: body.data[i].serial, fileName: body.data[i].fileName, fileOld: find?.rows[0].fileName })
                 continue
             }
         }
