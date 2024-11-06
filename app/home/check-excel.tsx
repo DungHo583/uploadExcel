@@ -153,11 +153,11 @@ export default function CheckUpload() {
                 </button>
             </div>
             <div className="w-full text-center mt-4">
-                Số lượng File đã chọn: {countFile} | Số lượng Serial đọc được:{" "}
+                File đã chọn: {countFile} | Tổng Serial:{" "}
                 {serialList.length}{" "}
                 {loadingCount ? <span>Đang import ...</span> : <></>}
             </div>
-            {loading && <div className="w-full text-center mt-4">Đang check ...</div>}
+            {loading && <div className="w-[max-content] mx-auto text-center mt-4" style={{ right: "0px" }}>Đang check ...</div>}
             {errText && (
                 <div className="w-full text-center mt-4 text-[#ff0000]">{errText}</div>
             )}
@@ -171,7 +171,7 @@ export default function CheckUpload() {
             )}
             {!loading && dataRes.length != 0 && (
                 <div className="w-full text-center mt-3">
-                    Số lượng: {dataRes.length}
+                    Serial trùng: {dataRes.length}
                     <div
                         className="overflow-y-auto mt-2"
                         style={{ height: "calc(100dvh - 190px)" }}

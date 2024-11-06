@@ -1,4 +1,4 @@
-import CheckUpload from "../check-excel";
+import CheckUpload from "./check-excel";
 
 export default function Home() {
   return (

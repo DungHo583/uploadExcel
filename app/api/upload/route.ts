@@ -1,4 +1,4 @@
-import conn from "@/lib/db"
+import conn from "../../../lib/db"
 import cuid from 'cuid';
 
 export async function POST(request: Request) {

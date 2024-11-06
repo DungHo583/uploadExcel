@@ -1,24 +1,29 @@
-FROM node:18 AS builder
+FROM node:20-alpine AS base
 
+FROM base AS deps
 WORKDIR /app
-ENV NODE_ENV production
-COPY package*.json ./
-RUN npm install
+COPY package.json package-lock.json ./
+RUN npm install --frozen-lockfile;
+
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED 1
-RUN npm run build
-FROM node:18-alpine
+RUN npm run build;
 
+FROM base AS runner
 WORKDIR /app
+ENV NODE_ENV production
 
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.ts ./
-
-RUN npm install --production
+# RUN mkdir .next
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
 ENV PORT 3100
 EXPOSE 3100
 
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
+# CMD ["npm", "start"]
